@@ -1,4 +1,5 @@
 ﻿using FinalProject.DataAccess;
+using FinalProject.Model;
 
 namespace FinalProject.Process
 {
@@ -20,7 +21,7 @@ namespace FinalProject.Process
            
         }
 
-        public int GetEnquirer(string email)
+        public CreateEnquiry GetEnquirer(string email)
         {
             try
             {
@@ -34,21 +35,41 @@ namespace FinalProject.Process
         }
 
         public void CreateEnquiry(string firstName, string lastName, string address1, string address2, string address3, string phoneNumber,
-                         string email, DateTime dob, string city, string country, int status, int pincode, int wantsCheque,
-                         string feedback, int managerId, bool isActive, string accountType ,int EnqLogId, int balance)
+                         string email, DateTime dob, string city, string country, int status, int pincode, bool wantsCheque,
+                         string feedback, bool isActive, string accountType , decimal balance, byte[] formPhoto, byte[] formAadhar, byte[] formPanCard)
         {
             try
             {
                
 
                     elda.CreateEnquiry(firstName, lastName, address1, address2, address3, phoneNumber, email, dob, city, country,
-                                             status, pincode, wantsCheque, feedback, managerId, isActive, accountType, EnqLogId,balance);
+                                             status, pincode, wantsCheque, feedback, isActive, accountType, balance, formPhoto, formAadhar, formPanCard);
               
 
             }
             catch
             {
                
+                throw;
+            }
+        }
+
+        public void SaveEnquiry(string firstName, string lastName, string address1, string address2, string address3, string phoneNumber,
+                      string email, DateTime dob, string city, string country, int status, int pincode, bool wantsCheque,
+                      string feedback, bool isActive, string accountType, decimal balance, byte[] formPhoto, byte[] formAadhar, byte[] formPanCard)
+        {
+            try
+            {
+
+
+                elda.SaveEnquiry(firstName, lastName, address1, address2, address3, phoneNumber, email, dob, city, country,
+                                         status, pincode, wantsCheque, feedback, isActive, accountType, balance, formPhoto, formAadhar, formPanCard);
+
+
+            }
+            catch
+            {
+
                 throw;
             }
         }

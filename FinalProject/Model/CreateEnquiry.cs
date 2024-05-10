@@ -18,21 +18,23 @@ namespace FinalProject.Model
         private string _country = "";
         private int _status;
         private int _pincode;
-        private int _wants_cheque;
+        private bool _wants_cheque;
         private string _feedback = "";
-        private int _managerId;
         private bool _isActive = false;
         private string _accountType = "";
-        private int _enqLogid=0;
-        private int _balance = 0;
+        private decimal _balance = 0;
+        private IFormFile _formPhoto;
+        private IFormFile _formAadhar;
+        private IFormFile _formPanCard;
 
         public CreateEnquiry()
         {
         }
 
         public CreateEnquiry(string firstName, string lastName, string address1, string address2, string address3, string phoneNumber,
-                       string email, DateTime date, string city, string country, int status, int pincode, int wants_cheque,
-                       string feedback, int managerId, bool isActive, string accountType, int enqLogid,int balance)
+                       string email, DateTime date, string city, string country, int status, int pincode, bool wants_cheque,
+                       string feedback, int managerId, bool isActive, string accountType,decimal balance, IFormFile formPhoto, IFormFile formAadhar, 
+                       IFormFile formPanCard)
         {
             _firstName = firstName;
             _lastName = lastName;
@@ -48,11 +50,13 @@ namespace FinalProject.Model
             _pincode = pincode;
             _wants_cheque = wants_cheque;
             _feedback = feedback;
-            _managerId = managerId;
             _isActive = isActive;
             _accountType = accountType;
-            _enqLogid = enqLogid;
+
             _balance = balance;
+            _formPhoto = formPhoto;
+            _formAadhar = formAadhar;
+            _formPanCard = formPanCard;
         }
 
         public string FirstName
@@ -127,7 +131,7 @@ namespace FinalProject.Model
             set { _pincode = value; }
         }
 
-        public int WantsCheque
+        public bool WantsCheque
         {
             get { return _wants_cheque; }
             set { _wants_cheque = value; }
@@ -139,11 +143,6 @@ namespace FinalProject.Model
             set { _feedback = value; }
         }
 
-        public int ManagerId
-        {
-            get { return _managerId; }
-            set { _managerId = value; }
-        }
 
         public bool IsActive
         {
@@ -157,15 +156,27 @@ namespace FinalProject.Model
             set { _accountType = value; }
         }
 
-        public int EnqLogid
-        {
-            get { return _enqLogid; }
-            set { _enqLogid = value; }
-        }
-        public int Balance
+    
+        public decimal Balance
         {
             get { return _balance; }
             set { _balance = value; }
+        }
+
+        public IFormFile Photo
+        {
+            get { return _formPhoto; }
+            set { _formPhoto = value; }
+        }
+        public IFormFile Aadhar
+        {
+            get { return _formAadhar; }
+            set { _formAadhar = value; }
+        }
+        public IFormFile PanCard
+        {
+            get { return _formPanCard; }
+            set { _formPanCard = value; }
         }
     }
 }

@@ -27,14 +27,18 @@ namespace FinalProject.Controllers
         {
             try
             {
-                int id = process.GetEnquirer(model.Email);
-                if (id <= 0)
+                CreateEnquiry model2 = null;
+                model2 = process.GetEnquirer(model.Email);
+
+
+                if (model2 is null)
                 {
                     return BadRequest("User not found");
                 }
                 else
                 {
-                    return Ok(id);
+
+                    return Ok(model2);
                 }
             }
             catch (Exception ex)
@@ -43,18 +47,29 @@ namespace FinalProject.Controllers
             }
         }
 
+        private byte[] ConvertToBytes(IFormFile file)
+        {
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                file.CopyTo(memoryStream);
+                return memoryStream.ToArray();
+            }
+        }
 
         [HttpPost(template: "CreateEnquiry")]
         public IActionResult CreateEnquiry(CreateEnquiry model)
         {
             try
             {
-               
-                int EnqLogId = process.GetEnquirer(model.Email);
 
-                if (EnqLogId > 0)
-                {
-                    process.CreateEnquiry(
+               
+
+                byte[] photoBytes = ConvertToBytes(model.Photo);
+                byte[] aadharBytes = ConvertToBytes(model.Aadhar);
+                byte[] pancardBytes = ConvertToBytes(model.PanCard);
+
+
+                process.CreateEnquiry(
                 model.FirstName,
                 model.LastName,
                 model.Address1,
@@ -69,22 +84,68 @@ namespace FinalProject.Controllers
                 model.Pincode,
                 model.WantsCheque,
                 model.Feedback,
-                model.ManagerId,
                 model.IsActive,
-                model.AccountType,
-                EnqLogId,
-                model.Balance
+                model.AccountType,  
+                model.Balance,
+                photoBytes,
+                aadharBytes,
+                pancardBytes
                  );
                     return Ok(200);
-                }
+             
 
-                return BadRequest("Something went wrong");
+               
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
+
+
+        [HttpPost(template: "SaveEnquiry")]
+        public IActionResult SaveEnquiry(CreateEnquiry model)
+        {
+            try
+            {
+
+                byte[] photoBytes = ConvertToBytes(model.Photo);
+                byte[] aadharBytes = ConvertToBytes(model.Aadhar);
+                byte[] pancardBytes = ConvertToBytes(model.PanCard);
+
+                process.SaveEnquiry(
+            model.FirstName,
+            model.LastName,
+            model.Address1,
+            model.Address2,
+            model.Address3,
+            model.PhoneNumber,
+            model.Email,
+            model.DOB,
+            model.City,
+            model.Country,
+            model.Status,
+            model.Pincode,
+            model.WantsCheque,
+            model.Feedback,
+            model.IsActive,
+            model.AccountType,
+            model.Balance,
+             photoBytes,
+              aadharBytes,
+              pancardBytes
+             );
+                return Ok(200);
+            
+
+                
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
 
     }
 }
